@@ -77,5 +77,8 @@ torch.gather(t,0,torch.LongTensor([[0,0],[1,0]]))
 * maks 与input一样维度的二元值，且为ByteTensor
 * 返回一个一维的张量
 ## torch.nonzero  
-* 返回z*n 的Tensor ，z是全部非零元素的个数，n是输入的维度  
+* 返回z*n 的Tensor ，z是全部非零元素的个数，n是输入的维度  
+## torch.split  
+`torch.split(tensor,split_size,dim=0)`  
+* 将张量分割成单块为split_size大小，如果不能整分，最后一块将小于其他块  
 
