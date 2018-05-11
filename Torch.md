@@ -80,5 +80,9 @@ torch.gather(t,0,torch.LongTensor([[0,0],[1,0]]))
 * 返回z*n 的Tensor ，z是全部非零元素的个数，n是输入的维度  
 ## torch.split  
 `torch.split(tensor,split_size,dim=0)`  
-* 将张量分割成单块为split_size大小，如果不能整分，最后一块将小于其他块  
+* 将张量分割成单块为split_size大小，如果不能整分，最后一块将小于其他块  
+## torch.squeeze  
+`torch.squeeze(input,dim = None,out =None)`  
+* 将张量中维度为1的去掉  
+* 如果给定dim，则只在指定维度上进行操作  
 
