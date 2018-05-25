@@ -218,6 +218,71 @@ model = nn.Sequential(
 * scale_grad_by_freq (boolean, optional) - 如果提供的话，会根据字典中单词频率缩放梯度  
 * 输入LongTensor(N,W),N=mini-batch,w=每个mini-batch中提取的下标数  
 * 输出：（N,W,embedding_dim）  
-* 
- 
+# Distance functions  
+## class torch.nn.PairwiseDistance(p=2,eps=1e-06)  
+* 按批计算向量V1，V2之间的距离  
+# loss function  
+## class torch.nn.L1Loss(size_average=True)  
+* size_average = False时，输出结果将不会除以n  
+## class torch.nn.MSELoss(size_average=Tre)  
+## class torch.nn.CrossEntropyLoss(weight=None,size_average=True)  
+* weight:一维向量，n个元素，分别代表n类的权重，如果样本很不均衡的话非常有用  
+## class torch.nn.NLLLoss(weight=None,size_averae=True)  
+* 可以通过在最后一层添加LogSoftmax来获得类别的log-probabilities  
+* 如果不想加一个额外层的话，可以使用CrossEntropyLoss  
+## class torch.nn.KLDivLoss(weight=None,size_average=True)  
+* 计算KL散度  
+## class torch.nn.BCELoss(weight=None,size_average=True)  
+* 计算targrt与output之间的二进制交叉熵  
+# Vision layers  
+## class torch.nn.PixelShuffle(upscale_factor)  
+* 将shape为[N,C*R^2,H,W]重新排列为[N,C,H*R,W*R]  
+## class torch.nn.UpsamplingNearest2d(size=None,scale_factor=None)  
+* 对多channel输入进行2D最近邻上采样  
+* size 一个包含两个整数的元组。制定了输出的长宽  
+* scale_factor 长和宽的一个乘子  
+# Multi-GPU layers  
+## class torch.nn.DataParallel(module,device_ids=None,output_device=None,dim=0)  
+* 通过mimi-batch划分到不同设备上来实现module的并行。在forward过程中  
+module会在设备上都复制一遍，每个副本都会处理部分输入，在backward过程中，副本上的梯度会累加到
+原始moudle上  
+* moudle 要被并行的moudle  
+* device_ids -CUDA设备，默认为所有设备  
+* output_device 输出设备，默认为device_ids[0]  
+# Utilities  
+## torch.nn.utils.clip_grad_norm(parameters,max_norm,norm_type=2)  
+* parameters -可迭代的variables，它们的梯度即被标准化  
+* max_norm - 计算范数后的不可超过的值  
+* norm—type - 标准化的类型  
+## torch.nn.utils.rnn.PackedSequence(_cls,data,batch_sizes)  
+* data 包含打包后序列的Varible  
+* batch_size 包含mini-batch中每个序列长度的列表  
+## torch.nn.utils.rnn.pack_padded_sequence(input,lengths,batch_first=False)  
+* 将一个填充过的序列压紧  
+* 输入shape是（TxBx*），T是最长序列长度，B是batch_size，如果batch_first=True的话  
+那么相应的input_size就是（BxTx*）  
+* 只要是维度大于等于2的input都可以作为这个函数的参数，你可以用它来打包labels，然后用  
+RNN的输出和打包后的labels来计算loss，通过PackedSequence对象的.data属性可以获取Variable  
+## torch.nn.utils.rnn.pad_packed_sequence(sequence,batch_first=False)
+* 和上面的函数相反，把压紧的序列再填充回来  
+```
+import torch  
+import torch.nn as nn 
+from torch.autograd import Variable
+from torch.nn import utils as nn_utils
+batch_size = 2 
+max_length =3
+hidden_size = 2
+n_layers =1
+tensor_in = torch.FloatTensor([[1,2,3],[1,0,0]]).resize_(2,3,1)
+tensor_in = Variable(tensor_in)
+seq_lengths = [3,1]
+pack = nn_utils.rnn.pack_padded_sequence(tensor_in,seq_lengths,batch_first=True)
+rnn = bb.RNN(1,hidden_size,n_layers,batch_size=True)
+h0 = Variable(torch.randn(n_layers,batch_size,hidden_size))
+out,_ = rnn(pack,h0)
+unpacked = nn_utils.rnn.pad_packed_sequence(out)
+print(unpacked)
+
+```
 
