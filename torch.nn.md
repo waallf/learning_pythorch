@@ -147,6 +147,56 @@ model = nn.Sequential(
  ## class torch.nn.MaxPool1d(kernel_size,stride=None,padding=0,dilation=1,return_indices=False,ceil_mode=False)  
  * return_indices -如果等于True，会返回输出最大值的序号  
  * ceil_mode 如果等于true，输出时会向上取整  
+ ## class torch.nn.MaxPool2d(kernel_size,stride=None,padding =0,dilation=1,return_indices=False,ceil_mode=False)  
+ ## class troch.nn.MaxPool3d(kernel_size,stride=None,padding=0,dilation=1,return_indices=False,ceil_mode=False)  
+ ## class torch.nn.MaxUnpool1d(kernel_size,stride=None,padding=0)  
+ * MaxUnpool1d输入MaxPool1d的输出，包括最大值的索引，不是最大值的地方补0  
+ ## class torch.nn.MaxUnpool2d(kernel_size,stride=None,padding=0)  
+ ## class torch.nn.AvgPool1d(kernel_size,stride=None,padding=0,ceil_mode=False,count_include_pad=True)  
+ # Non-Linear Activations  
+ ## class torch.nn.Relu()    
+ ## class torch.nn.Relu6()  
+ * return min(max(0,x),6)  
+ ## class troch.nn.ELU(alpha=1.0,inplace=False)  
+ * return max(0,x) +min(0,alpha*(e^x-1))  
+ ## class torch.nn.PRelu(num_parameters=1,init=0.25)  
+ * return max(0,x)+a*min(0,x)  
+ * a是一个可学习的参数，当没有声明时所有的输入中只有一个参数a，  
+ * 如果是nn.PRelu(nChaeenls),a将应用到每个输入  
+ * num_parameters:需要学习的a的个数  
+ * init ：a的初始值  
+ ## class torch.nn.LeakyRelu(negative_slope=0.01,inplace=False)  
+ * return max(0,x) +{negative_slope}*min(0,x)  
+ * negative_slope：控制负斜率的角度  
+ ## class torch.nn.Threshold(thershold,value,inplace=False)  
+ * return y=x,if x>=threshold y=value,if x< threshold  
+ * threshold 阈值  
+ * value 输入值小于阈值会被value代替  
+ ## class torch.nn.LogSigmoid  
+ * return log(1/(1 +e^{-x}))  
+ # Normalization layers  
+ ## class torch.nn.BatchNorm1d(num_features,eps=1e-0.5,momentum=0.1,affine-True)  
+ * momentum:动态均值和动态方差所使用的动量  
+ * affine :设置为True,给该层添加课学习的仿射变换  
+ # Recurrent layers  
+ ## class torch.nn.RNN  
+ * input_size :输入x特征数量  
+ * hidden_szie:隐层的特征数量 
+ * num_layers :RNN的特征数量  
+ * nonlinearity 指定非线性函数使用tanh还是relu，默认tanh  
+ * bias :如果是False，那么RNN层就不适用偏置  
+ * batch_first:为True时，那么输入Tensor的shaoe应该是[batch_size,time_step,frature]  
+ * dropout:如果值为0，那么除了最后一层外，其它层的输出都会套上一个dropout层  
+ * bidirectional :如果为True,将变成一个双向RNN  
+ * 输入：(input,h_0) :input(seq_len,batch,input_size)  
+ *       h_0(num_layers*num_directions,batch,hidden_size)保存着初始隐状态  
+ * 输出：(out_put,h_n) : out_put(seq_len,batch,hidden_size*num_directions)  
+        h_n(num_kayers*num_directions,batch,hidden_size) 保存着最后一个时刻隐状态  
+ ## class torch.nn.LSTM()  
+ * input_size :输入的特征维度  
+ * hidde_size :隐状态的特征维度  
+ * num_layers :层数
+ 
  
  
           )
