@@ -196,7 +196,28 @@ model = nn.Sequential(
  * input_size :输入的特征维度  
  * hidde_size :隐状态的特征维度  
  * num_layers :层数
+ ## class torch.nn.RNNCell(inpu_size,hidden_size,bias=True,nonlinearity="tanh")  
+ * 与RNN的区别：
+              1.RNNCell只接受输入序列中的单步的输入，且必须传入隐藏层状态  
+              2.RNN可以接受一个序列的输入，默认会传入全为0的隐藏层  
+ ## class torch.nn.Linear(in_features,out_features,bias=True)  
+ * in_feature -输入样本的大小  
+ * out_features 输出样本的大小  
+ # Dropout layers  
+ ## class torch.nn.Dropout(p=0.5,inplace=False)  
+ ## class torch.nn.Dropout2d(p=0.5,inplace=False)  
+ * 随机将输入张量中整个通道设置为0.  
+ # Sparse layers  
+ ## class torch.nn.Embedding(num_embeddings,embedding_dim,padding_idx=None,max_norm=None,norm_type=2,scale_grad_by_freq=False,sparse=False)  
+* 保存了固定字典和大小的简单查询表  
+* num_embeddings 嵌入字典的大小  
+* embedding_dim  每个嵌入向量的大小  
+* padding_idx   输出遇到此下标时用零填充  
+* max_norm      重新归一化词嵌入，使他们的范数的值小于max_norm  
+* norm_type     p范数时的p  
+* scale_grad_by_freq (boolean, optional) - 如果提供的话，会根据字典中单词频率缩放梯度  
+* 输入LongTensor(N,W),N=mini-batch,w=每个mini-batch中提取的下标数  
+* 输出：（N,W,embedding_dim）  
+* 
  
- 
- 
-          )
+
